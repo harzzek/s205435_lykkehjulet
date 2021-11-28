@@ -9,24 +9,36 @@
         android:id="@+id/categoryList"
         android:name="com.example.s205435lykkehjulet.CategoryList"
         android:label="fragment_category_list"
-        tools:layout="@layout/fragment_category_list" />
+        tools:layout="@layout/fragment_category_list" >
+        <action
+            android:id="@+id/action_categoryList_to_fortuneWheel"
+            app:destination="@id/fortuneWheel" />
+    </fragment>
     <fragment
         android:id="@+id/fortuneWheel"
         android:name="com.example.s205435lykkehjulet.FortuneWheel"
         android:label="fragment_fortune_wheel"
-        tools:layout="@layout/fragment_fortune_wheel" />
-    <fragment
-        android:id="@+id/wordGuess2"
-        android:name="com.example.s205435lykkehjulet.WordGuess"
-        android:label="fragment_word_guess"
-        tools:layout="@layout/fragment_word_guess" />
+        tools:layout="@layout/fragment_fortune_wheel" >
+        <action
+            android:id="@+id/action_fortuneWheel_to_endGame"
+            app:destination="@id/endGame" />
+    </fragment>
     <fragment
         android:id="@+id/startScreen"
         android:name="com.example.s205435lykkehjulet.StartScreen"
         android:label="fragment_start_screen"
         tools:layout="@layout/fragment_start_screen" >
         <action
-            android:id="@+id/action_startScreen_to_fortuneWheel"
-            app:destination="@id/fortuneWheel" />
+            android:id="@+id/action_startScreen_to_categoryList"
+            app:destination="@id/categoryList" />
+    </fragment>
+    <fragment
+        android:id="@+id/endGame"
+        android:name="com.example.s205435lykkehjulet.EndGame"
+        android:label="fragment_end_game"
+        tools:layout="@layout/fragment_end_game" >
+        <action
+            android:id="@+id/action_endGame_to_startScreen"
+            app:destination="@id/startScreen" />
     </fragment>
 </navigation>
