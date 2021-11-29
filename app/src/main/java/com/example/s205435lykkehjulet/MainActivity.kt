@@ -7,8 +7,6 @@ import androidx.navigation.fragment.NavHostFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: GameDataFragmentViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

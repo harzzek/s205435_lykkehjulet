@@ -23,8 +23,6 @@ class FortuneWheel : Fragment() {
     private val binding get() = _binding!!
     private var state:States = States.SPIN
 
-    private val gameData : GameDataFragmentViewModel by activityViewModels()
-
     enum class States
     {
         SPIN,

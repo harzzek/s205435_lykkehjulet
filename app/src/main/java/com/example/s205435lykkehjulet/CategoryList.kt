@@ -7,14 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.s205435lykkehjulet.databinding.FragmentCategoryListBinding
 import java.util.*
 import kotlin.collections.ArrayList
 
 class CategoryList : Fragment() {
     // TODO: Rename and change types of parameters
-    private val gameData : GameDataFragmentViewModel by viewModels()
+    private lateinit var gameData : GameDataFragmentViewModel
     var _binding: FragmentCategoryListBinding? = null
     val binding get() = _binding!!
 
@@ -25,7 +27,9 @@ class CategoryList : Fragment() {
         _binding = FragmentCategoryListBinding.inflate(inflater,container,false)
         val view = binding.root
 
-        val categoryAdapter = CategoryAdapter(categoriesToList())
+        gameData = ViewModelProvider(this).get(GameDataFragmentViewModel::class.java)
+
+        val categoryAdapter = CategoryAdapter(categoriesToList(), gameData)
         binding.categoryRec.adapter = categoryAdapter
 
         // Inflate the layout for this fragment
