@@ -33,9 +33,24 @@ class CategoryAdapter(private val categorySet: List<String>, private var gameDat
         holder.button.text = categorySet[position]
         holder.button.setOnClickListener()
         {
-            gameData.chooseCategory(categorySet[position])
+
+            gameData.chooseCategory(findEnumOfCat(categorySet[position]))
             Navigation.findNavController(holder.itemView).navigate(R.id.action_categoryList_to_fortuneWheel)
         }
+    }
+
+    fun findEnumOfCat(nameOf: String) : CategoryWords
+    {
+        var someItem : CategoryWords? = null
+        for (item in CategoryWords.values())
+        {
+            if(item.nameOfCategory == nameOf)
+            {
+                someItem = item
+                break
+            }
+        }
+        return someItem!!
     }
 
     override fun getItemCount() = categorySet.size

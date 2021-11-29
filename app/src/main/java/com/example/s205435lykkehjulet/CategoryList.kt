@@ -16,7 +16,7 @@ import kotlin.collections.ArrayList
 
 class CategoryList : Fragment() {
     // TODO: Rename and change types of parameters
-    private lateinit var gameData : GameDataFragmentViewModel
+    private val gameData : GameDataFragmentViewModel by activityViewModels()
     var _binding: FragmentCategoryListBinding? = null
     val binding get() = _binding!!
 
@@ -26,8 +26,6 @@ class CategoryList : Fragment() {
     ): View? {
         _binding = FragmentCategoryListBinding.inflate(inflater,container,false)
         val view = binding.root
-
-        gameData = ViewModelProvider(this).get(GameDataFragmentViewModel::class.java)
 
         val categoryAdapter = CategoryAdapter(categoriesToList(), gameData)
         binding.categoryRec.adapter = categoryAdapter

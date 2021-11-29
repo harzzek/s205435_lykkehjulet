@@ -22,7 +22,7 @@ class FortuneWheel : Fragment() {
     private var _binding: FragmentFortuneWheelBinding? = null
     private val binding get() = _binding!!
     private var state:States = States.SPIN
-
+    private val gameData : GameDataFragmentViewModel by activityViewModels()
     enum class States
     {
         SPIN,
@@ -36,29 +36,28 @@ class FortuneWheel : Fragment() {
         _binding = FragmentFortuneWheelBinding.inflate(inflater, container, false)
         val view = binding.root
         binding.hiddenWord.text = gameData.hiddenWord
-        binding.category.text = gameData.category.name
+        binding.category.text = gameData.category!!.name
         binding.guessField.isEnabled = false
         binding.score.text = "Score: 0"
         binding.lives.text = "Lives: ${gameData.player.playerLife}"
 
         binding.button.setOnClickListener()
         {
-            gameOver(view)
-            clickButton()
+            clickButton(view)
         }
         return view
     }
 
-    private fun clickButton()
+    private fun clickButton(view: ConstraintLayout)
     {
         if(state == States.SPIN)
         {
-            spinState()
+            spinState(view)
         } else if(state == States.GUESS)
         {
             if(!binding.guessField.editText?.text.isNullOrEmpty())
             {
-                guessState()
+                guessState(view)
             } else
             {
                 Snackbar.make(binding.root,"Write something?..", Snackbar.LENGTH_SHORT).show()
@@ -66,36 +65,59 @@ class FortuneWheel : Fragment() {
         }
     }
 
-    private fun spinState()
+    private fun spinState(view: ConstraintLayout)
     {
-        binding.guessField.isEnabled = true
-        binding.button.text = "Guess!"
-        state = States.GUESS
         gameData.wheelspinValue = Wheel.randomValue()
-        binding.wheelResult.text = gameData.wheelspinValue.toString()
+        binding.wheelResult.text = gameData.wheelspinValue
+
+        if(gameData.wheelspinValue.equals("Bankrupt")){
+            Snackbar.make(binding.root,"Bankrupt :(", Snackbar.LENGTH_SHORT).show()
+            gameData.player.playerScore = 0
+            binding.score.text = "Score: ${gameData.player.playerScore}"
+            binding.wheelResult.text = gameData.wheelspinValue
+        } else if(gameData.wheelspinValue.equals("Extra Turn"))
+        {
+            Snackbar.make(binding.root,"Extra life :)", Snackbar.LENGTH_SHORT).show()
+            gameData.player.playerLife++
+            binding.lives.text = "Lives: ${gameData.player.playerLife}"
+            binding.wheelResult.text = gameData.wheelspinValue
+        } else if(gameData.wheelspinValue.equals("Miss Turn"))
+        {
+            Snackbar.make(binding.root,"Auch! :(", Snackbar.LENGTH_SHORT).show()
+            gameData.player.loseLife()
+            binding.lives.text = "Lives: ${gameData.player.playerLife}"
+            binding.wheelResult.text = gameData.wheelspinValue
+            gameOver(view)
+        } else
+        {
+            binding.guessField.isEnabled = true
+            binding.button.text = "Guess!"
+            state = States.GUESS
+        }
+
     }
 
-    private fun guessState() {
+    private fun guessState(view: ConstraintLayout) {
         val guess = binding.guessLetter.text?.get(0)
-        val boo : Boolean = gameData.showLetter(guess!!)
-        if(boo)
+        val boo : Int = gameData.showLetter(guess!!)
+        if(boo != 0)
         {
             binding.hiddenWord.text = gameData.hiddenWord
             try {
-                gameData.player.gainScore(gameData.wheelspinValue!!.toInt())
+                gameData.player.gainScore(gameData.wheelspinValue!!.toInt() * boo)
             } catch (e: NumberFormatException)
             {
                 println("NumberFormatExe: Compile failure")
             }
             binding.score.text = "Score: ${gameData.player.playerScore}"
+            gameOver(view)
         } else
         {
             gameData.player.loseLife()
             binding.lives.text = "Lives: ${gameData.player.playerLife}"
             Snackbar.make(binding.root,"You guessed wrong :(", Snackbar.LENGTH_SHORT).show()
+            gameOver(view)
         }
-
-
         binding.guessField.isEnabled = false
         binding.guessLetter.setText("")
         binding.guessedLetters.text = gameData.guessedLetters.toString()
@@ -105,7 +127,7 @@ class FortuneWheel : Fragment() {
 
     private fun gameOver(view: ConstraintLayout): Boolean
     {
-        if(gameData.player.playerLife == 0 || !gameData.hiddenWord.contains('*'))
+        if(gameData.player.playerLife <= 0 || gameData.hiddenWord.equals(gameData.word, ignoreCase = true))
         {
             Navigation.findNavController(view).navigate(R.id.action_fortuneWheel_to_endGame)
             return true;
@@ -134,7 +156,7 @@ class FortuneWheel : Fragment() {
 
     object Wheel
     {
-        val listOfValues = listOf("100", "200", "300", "400")
+        val listOfValues = listOf("50","100", "200", "300", "400","500","1000", "Bankrupt", "Extra Turn", "Miss Turn")
 
         fun randomValue(): String {
             return listOfValues.random()
