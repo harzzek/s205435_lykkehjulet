@@ -55,7 +55,7 @@ class FortuneWheel : Fragment() {
             spinState(view)
         } else if(state == States.GUESS)
         {
-            if(!binding.guessField.editText?.text.isNullOrEmpty())
+            if(!binding.guessField.editText?.text.isNullOrBlank())
             {
                 guessState(view)
             } else
@@ -151,9 +151,6 @@ class FortuneWheel : Fragment() {
     }
 
      */
-
-
-
     object Wheel
     {
         val listOfValues = listOf("50","100", "200", "300", "400","500","1000", "Bankrupt", "Extra Turn", "Miss Turn")

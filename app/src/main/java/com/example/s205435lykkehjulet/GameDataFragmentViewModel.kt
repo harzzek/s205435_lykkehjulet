@@ -32,7 +32,10 @@ class GameDataFragmentViewModel : ViewModel() {
 
         for (letter in word!!.indices)
         {
-            builder.append('*')
+            if(word!!.get(letter).equals('-'))
+            {
+                builder.append('-')
+            }else builder.append('*')
         }
         return builder.toString()
     }
@@ -46,11 +49,12 @@ class GameDataFragmentViewModel : ViewModel() {
             guessedLetters.add(input)
             for(i in word!!.indices)
             {
-                if(!hiddenWord!!.get(i).equals('*')|| hiddenWord!!.get(i).equals('-'))
+                if(!hiddenWord!!.get(i).equals('*'))
                 {
                     newHidden.append(hiddenWord!!.get(i))
                 } else if (!word!!.get(i).equals(input, ignoreCase = true))
                 {
+
                     newHidden.append('*')
                 } else
                 {
