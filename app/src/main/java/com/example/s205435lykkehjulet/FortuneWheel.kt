@@ -17,12 +17,21 @@ import com.example.s205435lykkehjulet.databinding.FragmentFortuneWheelBinding
 import com.google.android.material.snackbar.Snackbar
 import java.lang.NumberFormatException
 
+/**
+ * Fragment that contains the game logic and rules.
+ * This fragment uses bindings to manipulate the view dynamically.
+ */
 class FortuneWheel : Fragment() {
 
     private var _binding: FragmentFortuneWheelBinding? = null
     private val binding get() = _binding!!
     private var state:States = States.SPIN
     private val gameData : GameDataFragmentViewModel by activityViewModels()
+
+    /**
+     * The game has two states: spin and guess.
+     * These states are contained in a enum class
+     */
     enum class States
     {
         SPIN,
@@ -48,6 +57,10 @@ class FortuneWheel : Fragment() {
         return view
     }
 
+    /**
+     * The button in the fragment FragmentFortuneWheel drives the game.
+     * Whenever the button is pressed, the game will preform functions depending on state.
+     */
     private fun clickButton(view: ConstraintLayout)
     {
         if(state == States.SPIN)
@@ -65,6 +78,9 @@ class FortuneWheel : Fragment() {
         }
     }
 
+    /**
+     * Logic for spin state
+     */
     private fun spinState(view: ConstraintLayout)
     {
         gameData.wheelspinValue = Wheel.randomValue()
@@ -97,6 +113,9 @@ class FortuneWheel : Fragment() {
 
     }
 
+    /**
+     * Logic for guess state
+     */
     private fun guessState(view: ConstraintLayout) {
         val guess = binding.guessLetter.text?.get(0)
         val boo : Int = gameData.showLetter(guess!!)
@@ -125,6 +144,11 @@ class FortuneWheel : Fragment() {
         state = States.SPIN
     }
 
+    /**
+     * Checks whether the game is over or not
+     *
+     * returns boolean
+     */
     private fun gameOver(view: ConstraintLayout): Boolean
     {
         if(gameData.player.playerLife <= 0 || gameData.hiddenWord.equals(gameData.word, ignoreCase = true))
@@ -150,6 +174,10 @@ class FortuneWheel : Fragment() {
         }
     }
 
+     */
+
+    /**
+     * Singleton Wheel handle the values of the spin state
      */
     object Wheel
     {

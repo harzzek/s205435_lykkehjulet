@@ -11,6 +11,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.example.s205435lykkehjulet.databinding.FragmentCategoryListBinding
 
+/**
+ * Adapter for the recyclerview. Places the different categories in a list.
+ *
+ * categorySet, is a set of words(Strings)
+ *
+ * gameData, is a ViewModel so that we can parse data to another fragment
+ */
 class CategoryAdapter(private val categorySet: List<String>, private var gameData: GameDataFragmentViewModel) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>()
 {
@@ -39,6 +46,9 @@ class CategoryAdapter(private val categorySet: List<String>, private var gameDat
         }
     }
 
+    /**
+     * Refers to the enum of the category
+     */
     fun findEnumOfCat(nameOf: String) : CategoryWords
     {
         var someItem : CategoryWords? = null

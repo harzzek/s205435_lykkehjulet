@@ -34,6 +34,9 @@ class CategoryList : Fragment() {
         return view
     }
 
+    /**
+     * Creates a list of all the available categories
+     */
     fun categoriesToList() : List<String>
     {
         val listOfCategories = mutableListOf<String>()

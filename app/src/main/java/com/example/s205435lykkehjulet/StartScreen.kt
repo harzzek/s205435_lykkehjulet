@@ -12,7 +12,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlin.math.absoluteValue
 
-
+/**
+ * Startscreen Fragment.
+ * Contains a button and textview, that's all. Does not bear function
+ */
 class StartScreen : Fragment() {
 
     override fun onCreateView(

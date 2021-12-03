@@ -10,7 +10,10 @@ import androidx.navigation.Navigation
 import com.example.s205435lykkehjulet.databinding.FragmentEndGameBinding
 import com.example.s205435lykkehjulet.databinding.FragmentFortuneWheelBinding
 
-
+/**
+ * Fragment that contains the last view,
+ * and writes whether you have won or lost by considering the viewmodel
+ */
 class EndGame : Fragment() {
 
     private var _binding: FragmentEndGameBinding? = null

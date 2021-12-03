@@ -8,6 +8,12 @@ import androidx.navigation.fragment.NavHostFragment
 
 class MainActivity : AppCompatActivity() {
 
+    /**
+     * The GameDataFragmentViewModel is a ViewModel contained in a scope which
+     * the fragments CAN reach. Each fragment has a attribute called:
+     * private val gameData : GameDataFragmentViewModel by activityViewModels()
+     * This attribute handles the game data throughout the apps navigation.
+     */
     private lateinit var gameData : GameDataFragmentViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
